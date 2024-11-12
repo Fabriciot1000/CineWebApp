@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: morales
+  Date: 12/11/24
+  Time: 06:38
+-->
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:h="jakarta.faces.html"
+               xmlns:f="jakarta.faces.facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:crud="jakarta.faces.composite/crudBtn"
+               template="WEB-INF/templates/principal.xhtml"
+
+>
+
+
+    <f:define name="titulo">
+        #{frmPelicula.tituloPagina}
+    </f:define>
+
+    <f:define name="cuerpo">
+        <h:panelGrid>
+            <h:panelGroup id="pnlTabla">
+                <h:form id="frmTabla">
+                    <h:panelGrid>
+                        <p:dataTable value="#{frmPelicula.modelo}" var="r"
+                                     lazy="true"
+                                     paginator="true"
+                                     rows="#{frmPelicula.registroPorPagina}"
+                                     first="0"
+                                     selectionMode="single"
+                                     selection="#{frmPelicula.registro}"
+                                     rendered="#{empty frmPelicula.registro}"
+                        >
+                            <p:ajax  process="@this" update=":pnlDetalle @form" event="rowSelect" listener="#{frmPelicula.seleccionarFila}"/>
+                            <p:column headerText="ID">
+                                <h:outputText value="#{r.idPelicula}"/>
+                            </p:column>
+                            <p:column headerText="NOMBRE">
+                                <h:outputText value="#{r.nombre}"/>
+                            </p:column>
+                            <p:column headerText="SIPNOSIS">
+                                <h:outputText value="#{r.sinopsis}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <h:panelGrid>
+                            <p:growl id="growl" showDetail="true" sticky="false" life="1500" />
+                            <h:panelGrid>
+                                <crud:BotonesTop frm="#{frmPelicula}" />
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:form>
+            </h:panelGroup>
+
+            <h:panelGroup id="pnlDetalle">
+                <h:panelGrid>
+                    <p:tabView rendered="#{not empty frmPelicula.registro}" id="Detalle">
+                        <p:tab title="Generalidades">
+                            <h:form rendered="#{not empty frmPelicula.registro}" id="frmDetalle">
+                                <h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="ID" for="txtid"/>
+                                        <p:inputText id="txtid" value="#{frmPelicula.registro.idPelicula}" readonly="true" disabled="true"/>
+
+                                        <p:outputLabel value="Nombre" for="txtNombre"/>
+                                        <p:inputText id="txtNombre" value="#{frmPelicula.registro.nombre}" size="70" />
+
+                                        <p:outputLabel value="Sinopsis" for="txtSinopsis"/>
+                                        <p:inputTextarea id="txtSinopsis" value="#{frmPelicula.registro.sinopsis}" cols="80" rows="4" style="width:100%;" />
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="#{frmPelicula.estado=='NUEVO'?'1':'2'}">
+                                        <p:commandButton value="GUARDAR" rendered="#{frmPelicula.estado=='NUEVO'}" update=":frmTabla  :pnlDetalle @form" actionListener="#{frmPelicula.btnGuardarHandler}"/>
+                                        <p:commandButton value="MODIFICAR" rendered="#{frmPelicula.estado=='MODIFICADO'}" update=":frmTabla :pnlDetalle @form" actionListener="#{frmPelicula.btnModificarHandler}"/>
+                                        <p:commandButton value="ELIMINAR" rendered="#{frmPelicula.estado=='MODIFICADO'}" update=":frmTabla  :pnlDetalle @form" actionListener="#{frmPelicula.btnEliminarHandler}"/>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="Caracteristicas">
+                            <h:panelGrid>
+                                <h:panelGroup id="pnlTabla2">
+                                    <h:form id="frmTabla2">
+                                        <h:panelGrid>
+                                            <p:dataTable value="#{frmTipoPago.modelo}" var="r"
+                                                         lazy="true"
+                                                         paginator="true"
+                                                         rows="#{frmTipoPago.registroPorPagina}"
+                                                         first="0"
+                                                         selectionMode="single"
+                                                         selection="#{frmTipoPago.registro}"
+                                                         rendered="#{empty frmTipoPago.registro}"
+                                            >
+                                                <p:ajax  process="@this" update=":pnlDetalle @form" event="rowSelect" listener="#{frmTipoPago.seleccionarFila}"/>
+                                                <p:column headerText="ID"><h:outputText value="#{r.idTipoPago}"/></p:column>
+                                                <p:column headerText="NOMBRE"><h:outputText value="#{r.nombre}"/></p:column>
+                                                <p:column headerText="ACTIVO"><h:outputText value="#{r.activo?'ACTIVO':'INACTIVO'}"/></p:column>
+
+                                            </p:dataTable>
+                                            <h:panelGrid>
+                                                <p:growl id="growl2" showDetail="true" sticky="false" life="1500" />
+                                                <h:panelGrid>
+                                                    <crud:BotonesTop frm="#{frmTipoPago}" />
+                                                </h:panelGrid>
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                    </h:form>
+                                </h:panelGroup>
+
+                                <h:panelGroup id="pnlDetalle2">
+                                    <h:panelGrid>
+                                        <h:form rendered="#{not empty frmTipoPago.registro}" id="frmDetalle2">
+                                            <h:panelGrid>
+                                                <h:panelGrid columns="2">
+                                                    <p:outputLabel value="ID" for="txtid2"/>
+                                                    <p:inputText id="txtid2" value="#{frmTipoPago.registro.idTipoPago}" readonly="true" disabled="true"/>
+
+                                                    <p:outputLabel value="Nombre" for="txtNombre2"/>
+                                                    <p:inputText id="txtNombre2" value="#{frmTipoPago.registro.nombre}" size="70" />
+
+                                                    <p:outputLabel value="Activo" for="chkActivo"/>
+                                                    <p:selectBooleanCheckbox id="chkActivo" value="#{frmTipoPago.registro.activo}" size="70" />
+
+                                                </h:panelGrid>
+                                                <h:panelGrid columns="#{frmTipoPago.estado=='NUEVO'?'1':'2'}">
+                                                    <p:commandButton value="GUARDAR" rendered="#{frmTipoPago.estado=='NUEVO'}" update=":frmTabla2  :pnlDetalle2 @form" actionListener="#{frmTipoPago.btnGuardarHandler}"/>
+                                                    <p:commandButton value="MODIFICAR" rendered="#{frmTipoPago.estado=='MODIFICADO'}" update=":frmTabla2 :pnlDetalle2 @form" actionListener="#{frmTipoPago.btnModificarHandler}"/>
+                                                    <p:commandButton value="ELIMINAR" rendered="#{frmTipoPago.estado=='MODIFICADO'}" update=":frmTabla2  :pnlDetalle2 @form" actionListener="#{frmTipoPago.btnEliminarHandler}"/>
+                                                </h:panelGrid>
+                                            </h:panelGrid>
+                                        </h:form>
+                                    </h:panelGrid>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                </h:panelGrid>
+            </h:panelGroup>
+        </h:panelGrid>
+    </f:define>
+
+</f:composition>

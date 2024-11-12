@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "sucursal", schema = "public")
 @NamedQueries({
-        @NamedQuery(name = "Sucursal.findAll", query = "SELECT s FROM Sucursal s"),
+        @NamedQuery(name = "Sucursal.findAllSucursal", query = "SELECT s FROM Sucursal s"),
         @NamedQuery(name = "Sucursal.findByIdSucursal", query = "SELECT s FROM Sucursal s WHERE s.idSucursal = :idSucursal"),
         @NamedQuery(name = "Sucursal.findByNombre", query = "SELECT s FROM Sucursal s WHERE s.nombre = :nombre"),
         @NamedQuery(name = "Sucursal.findByLongitud", query = "SELECT s FROM Sucursal s WHERE s.longitud = :longitud"),

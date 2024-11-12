@@ -1,34 +1,35 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.boundary.jsf;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
 import org.primefaces.event.SelectEvent;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.AbstractDataPersistence;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.TipoPagoBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoPago;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.PeliculaBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Pelicula;
+
 
 import java.io.Serializable;
 import java.util.logging.Logger;
 
 @Named
 @ViewScoped
-public class frmTipoPago extends AbstractFrm<TipoPago> implements Serializable {
+public class frmPelicula extends AbstractFrm<Pelicula> implements Serializable {
 
     @Inject
-    TipoPagoBean tBean;
+    PeliculaBean pBean;
     @Inject
     FacesContext fc;
+
     @Override
     public void instanciarRegistro(){
-        this.registro = new TipoPago();
-        registro.setActivo(true);
+        this.registro = new Pelicula();
     }
 
-    public frmTipoPago() {}
+    public frmPelicula(){}
 
     @Override
     public String nameRefresh(){
@@ -41,23 +42,23 @@ public class frmTipoPago extends AbstractFrm<TipoPago> implements Serializable {
     }
 
     @Override
-    public AbstractDataPersistence<TipoPago> getPersistence(){
-        return tBean;
+    public AbstractDataPersistence<Pelicula> getPersistence(){
+        return pBean;
     }
 
     @Override
-    public String getIdByObject(TipoPago obj){
-        if(obj.getIdTipoPago() != null){
-            return obj.getIdTipoPago().toString();
+    public String getIdByObject(Pelicula obj){
+        if(obj.getIdPelicula() != null){
+            return obj.getIdPelicula().toString();
         }
         return null;
     }
 
     @Override
-    public TipoPago getObjectById(String id){
+    public Pelicula getObjectById(String id){
         if(id != null & modelo != null & modelo.getWrappedData() != null){
             return modelo.getWrappedData().stream()
-                    .filter(r ->id.equals(r.getIdTipoPago().toString())).findFirst().
+                    .filter(r ->id.equals(r.getIdPelicula().toString())).findFirst().
                     orElseGet(()->{
                         Logger.getLogger("No se ha encontrado el objecto");
                         return null;
@@ -67,9 +68,9 @@ public class frmTipoPago extends AbstractFrm<TipoPago> implements Serializable {
     }
 
     @Override
-    public void seleccionarFila(SelectEvent<TipoPago> event) {
-        TipoPago filaSelect = event.getObject();
-        FacesMessage mensaje = new FacesMessage("Tipo Pago seleccionado");
+    public void seleccionarFila(SelectEvent<Pelicula> event) {
+        Pelicula filaSelect = event.getObject();
+        FacesMessage mensaje = new FacesMessage("Pelicula "+ filaSelect.getNombre() + " seleccionado");
         fc.addMessage(null, mensaje);
         this.registro = filaSelect;
         this.estado = EstadosCRUD.MODIFICADO;
@@ -77,6 +78,8 @@ public class frmTipoPago extends AbstractFrm<TipoPago> implements Serializable {
 
     @Override
     public String getTituloPagina() {
-        return "Tipo Pago";
+        return "Pelicula";
     }
+
+
 }

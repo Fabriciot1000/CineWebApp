@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Created by IntelliJ IDEA.
+  User: morales
+  Date: 12/11/24
+  Time: 12:16
+-->
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:h="jakarta.faces.html"
+               xmlns:f="jakarta.faces.facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:crud="jakarta.faces.composite/crudBtn"
+               template="WEB-INF/templates/principal.xhtml"
+
+>
+
+
+    <f:define name="titulo">
+        #{frmTipoPago.tituloPagina}
+    </f:define>
+
+    <f:define name="cuerpo">
+        <h:panelGrid>
+            <h:panelGroup id="pnlTabla">
+                <h:form id="frmTabla">
+                    <h:panelGrid>
+                        <p:dataTable value="#{frmTipoPago.modelo}" var="r"
+                                     lazy="true"
+                                     paginator="true"
+                                     rows="#{frmTipoPago.registroPorPagina}"
+                                     first="0"
+                                     selectionMode="single"
+                                     selection="#{frmTipoPago.registro}"
+                                     rendered="#{empty frmTipoPago.registro}"
+                        >
+                            <p:ajax  process="@this" update=":pnlDetalle @form" event="rowSelect" listener="#{frmTipoPago.seleccionarFila}"/>
+                            <p:column headerText="ID"><h:outputText value="#{r.idTipoPago}"/></p:column>
+                            <p:column headerText="NOMBRE"><h:outputText value="#{r.nombre}"/></p:column>
+                            <p:column headerText="ACTIVO"><h:outputText value="#{r.activo?'ACTIVO':'INACTIVO'}"/></p:column>
+
+                        </p:dataTable>
+                        <h:panelGrid>
+                            <p:growl id="growl" showDetail="true" sticky="false" life="1500" />
+                            <h:panelGrid>
+                                <crud:BotonesTop frm="#{frmTipoPago}" />
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:form>
+            </h:panelGroup>
+
+            <h:panelGroup id="pnlDetalle">
+                <h:panelGrid>
+                    <h:form rendered="#{not empty frmTipoPago.registro}" id="frmDetalle">
+                        <h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="ID" for="txtid"/>
+                                <p:inputText id="txtid" value="#{frmTipoPago.registro.idTipoPago}" readonly="true" disabled="true"/>
+
+                                <p:outputLabel value="Nombre" for="txtNombre"/>
+                                <p:inputText id="txtNombre" value="#{frmTipoPago.registro.nombre}" size="70" />
+
+                                <p:outputLabel value="Activo" for="chkActivo"/>
+                                <p:selectBooleanCheckbox id="chkActivo" value="#{frmTipoPago.registro.activo}" size="70" />
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="#{frmTipoPago.estado=='NUEVO'?'1':'2'}">
+                                <p:commandButton value="GUARDAR" rendered="#{frmTipoPago.estado=='NUEVO'}" update=":frmTabla  :pnlDetalle @form" actionListener="#{frmTipoPago.btnGuardarHandler}"/>
+                                <p:commandButton value="MODIFICAR" rendered="#{frmTipoPago.estado=='MODIFICADO'}" update=":frmTabla :pnlDetalle @form" actionListener="#{frmTipoPago.btnModificarHandler}"/>
+                                <p:commandButton value="ELIMINAR" rendered="#{frmTipoPago.estado=='MODIFICADO'}" update=":frmTabla  :pnlDetalle @form" actionListener="#{frmTipoPago.btnEliminarHandler}"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:form>
+                </h:panelGrid>
+            </h:panelGroup>
+        </h:panelGrid>
+    </f:define>
+
+</f:composition>

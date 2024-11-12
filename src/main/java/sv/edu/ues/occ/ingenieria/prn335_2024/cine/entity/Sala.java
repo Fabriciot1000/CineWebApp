@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "sala", schema = "public")
 @NamedQueries({
         @NamedQuery(name = "Sala.findAll", query = "SELECT s FROM Sala s"),
-        @NamedQuery(name = "Sala.findByIdSala", query = "SELECT s FROM Sala s WHERE s.idSala = :idSala"),
+        @NamedQuery(name = "Sala.findSalaBySalaId", query = "SELECT s FROM Sala s WHERE s.idSala = :idSala"),
         @NamedQuery(name = "Sala.findByNombre", query = "SELECT s FROM Sala s WHERE s.nombre = :nombre"),
         @NamedQuery(name = "Sala.findByActivo", query = "SELECT s FROM Sala s WHERE s.activo = :activo"),
         @NamedQuery(name = "Sala.findByObservaciones", query = "SELECT s FROM Sala s WHERE s.observaciones = :observaciones")})

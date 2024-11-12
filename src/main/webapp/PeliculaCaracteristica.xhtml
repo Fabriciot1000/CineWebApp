@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: morales
+  Date: 12/11/24
+  Time: 08:19
+-->
+
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:h="jakarta.faces.html"
+               xmlns:f="jakarta.faces.facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:crud="jakarta.faces.composite/crudBtn"
+               template="WEB-INF/templates/principal.xhtml"
+
+>
+
+    <f:define name="titulo">
+        #{frmPeliculaCaracteristica.tituloPagina}
+    </f:define>
+
+    <f:define name="cuerpo">
+        <h:panelGrid>
+            <h:panelGroup id="pnlTabla">
+                <h:form id="frmTabla">
+                    <h:panelGrid>
+                        <p:dataTable value="#{frmPeliculaCaracteristica.modelo}" var="r"
+                                     lazy="true"
+                                     paginator="true"
+                                     rows="#{frmPeliculaCaracteristica.registroPorPagina}"
+                                     first="0"
+                                     selectionMode="single"
+                                     selection="#{frmPeliculaCaracteristica.registro}"
+                                     rendered="#{empty frmPeliculaCaracteristica.registro}"
+                        >
+                            <p:ajax  process="@this" update=":pnlDetalle @form" event="rowSelect" listener="#{frmPeliculaCaracteristica.seleccionarFila}"/>
+                            <p:column headerText="ID"><h:outputText value="#{r.idPeliculaCaracteristica}"/></p:column>
+                            <p:column headerText="CARACTERISTICA"><h:outputText value="#{r.idTipoPelicula.nombre}"/></p:column>
+                            <p:column headerText="VALOR"><h:outputText value="#{r.valor}"/></p:column>
+
+                        </p:dataTable>
+                        <h:panelGrid>
+                            <p:growl id="growl" showDetail="true" sticky="false" life="1500" />
+                            <h:panelGrid>
+                                <crud:BotonesTop frm="#{frmPeliculaCaracteristica}" />
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:form>
+            </h:panelGroup>
+
+            <h:panelGroup id="pnlDetalle">
+                <h:panelGrid>
+                    <h:form rendered="#{not empty frmPeliculaCaracteristica.registro}" id="frmDetalle">
+                        <h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="ID" for="txtid"/>
+                                <p:inputText id="txtid" value="#{frmPeliculaCaracteristica.registro.idPeliculaCaracteristica}" readonly="true" disabled="true"/>
+
+                                <p:outputLabel value="VALOR" for="txtValor"/>
+                                <p:inputText id="txtValor" value="#{frmPeliculaCaracteristica.registro.valor}" readonly="true" disabled="true"/>
+
+                                <!--<p:outputLabel value="TipoPelicula" for="txtTipoPelicula"/>
+                                <p:inputText id="txtTipoPelicula" value="#{frmPeliculaCaracteristica.registro.nombre}" size="70" />
+                                -->
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="#{frmPeliculaCaracteristica.estado=='NUEVO'?'1':'2'}">
+                                <p:commandButton value="GUARDAR" rendered="#{frmPeliculaCaracteristica.estado=='NUEVO'}" update=":frmTabla  :pnlDetalle @form" actionListener="#{frmPeliculaCaracteristica.btnGuardarHandler}"/>
+                                <p:commandButton value="MODIFICAR" rendered="#{frmPeliculaCaracteristica.estado=='MODIFICADO'}" update=":frmTabla :pnlDetalle @form" actionListener="#{frmPeliculaCaracteristica.btnModificarHandler}"/>
+                                <p:commandButton value="ELIMINAR" rendered="#{frmPeliculaCaracteristica.estado=='MODIFICADO'}" update=":frmTabla  :pnlDetalle @form" actionListener="#{frmPeliculaCaracteristica.btnEliminarHandler}"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:form>
+                </h:panelGrid>
+            </h:panelGroup>
+        </h:panelGrid>
+    </f:define>
+
+</f:composition>
