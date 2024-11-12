@@ -26,17 +26,5 @@ public class TipoPagoBean extends AbstractDataPersistence<TipoPago> implements S
         super(TipoPago.class);
     }
 
-    public List<TipoPago> findTipoPagoByPagoId(Long IdPago, int first, int pageSize) {
-        Query q = em.createNamedQuery("TipoPago.findTipoPagoByPagoId");
-        q.setParameter("idPago", IdPago);
-        q.setFirstResult(first);
-        q.setMaxResults(pageSize);
-        return q.getResultList();
-    }
 
-    public Long countByIdTipoPago(final long idPago) {
-        Query q = em.createNamedQuery("TipoPago.countTipoPago");
-        q.setParameter("idPago",idPago);
-        return (Long) q.getSingleResult();
-    }
 }
