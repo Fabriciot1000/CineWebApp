@@ -23,82 +23,34 @@
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>10.0.0</version>
             <scope>provided</scope>
-        </dependency>
-        <!--Pruebas unitarias-->
+        </dependency><dependency>
+        <groupId>org.eclipse.persistence</groupId>
+        <artifactId>org.eclipse.persistence.jpa</artifactId>
+        <version>4.0.2</version>
+    </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.11.0-M2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.11.0-M2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>compile</scope>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>4.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.11.0-M2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.1.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-            <version>1.14.15</version>
-        </dependency>
-        <!-- Persistencia JPQL-->
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.2.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>6.5.2.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-api</artifactId>
-            <version>2.1.3</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.json.bind</groupId>
-            <artifactId>jakarta.json.bind-api</artifactId>
-            <version>3.0.1</version> 
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse</groupId>
-            <artifactId>yasson</artifactId>
-            <version>3.0.3</version> 
-        </dependency>
-        
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>13.0.0</version>
+            <version>14.0.5</version>
             <classifier>jakarta</classifier>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -113,8 +65,12 @@
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>3.10.3</version>
+                <configuration>
+                    <installDirectory>/usr/local/openliberty/wlp10_24_0_0_11</installDirectory>
+                    <serverName>prn335_2028</serverName>
+                    <appsDirectory>apps</appsDirectory>
+                </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

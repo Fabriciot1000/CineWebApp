@@ -8,7 +8,6 @@ import java.util.List;
 @Table(name = "tipo_pago", schema = "public")
 @NamedQueries({
         @NamedQuery(name = "TipoPago.findAll", query = "SELECT t FROM TipoPago t"),
-        @NamedQuery(name = "TipoPago.findTipoPagoByPagoId", query = "SELECT t FROM TipoPago t JOIN t.pagoList e WHERE e.idPago =: idPago"),
         @NamedQuery(name = "TipoPago.countTipoPago", query = "SELECT COUNT(t.idTipoPago) FROM TipoPago t"),
         @NamedQuery(name = "TipoPago.findByActivo", query = "SELECT t FROM TipoPago t WHERE t.activo = :activo")})
 public class TipoPago implements Serializable {
